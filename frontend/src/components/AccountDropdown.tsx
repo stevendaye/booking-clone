@@ -43,12 +43,14 @@ export const AccountDropdown = ({
                   key={item.name}
                   className="flex flex-col gap-4 last:mb-0 hover:bg-slate-400/15 px-4 py-3"
                 >
-                  <button className="flex gap-5">
+                  <button
+                    className="flex gap-5"
+                    onClick={() => onClick(item.name)}
+                  >
                     <item.icon
                       className=" text-black"
                       aria-hidden="true"
                       size={25}
-                      onClick={() => onClick(item.name)}
                     />
                     <Link to={item.href}>{item.name}</Link>
                   </button>
