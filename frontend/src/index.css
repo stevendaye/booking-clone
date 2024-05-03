@@ -1,0 +1,37 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  @font-face {
+    font-family: BookingRegular;
+    src: url("./assets/fonts/BookingRegular.woff");
+    font-weight: normal;
+    font-size: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: BookingBold;
+    src: url("./assets/fonts/BookingBold.woff");
+    font-weight: normal;
+    font-size: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: BookingExtraBold;
+    src: url("./assets/fonts/BookingExtraBold.woff");
+    font-weight: normal;
+    font-size: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: CircularXXWeb;
+    src: url("./assets/fonts/CircularXXWeb-Book.woff2");
+    font-weight: normal;
+    font-size: normal;
+    font-display: swap;
+  }
+}
