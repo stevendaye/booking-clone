@@ -1,0 +1,11 @@
+{
+  "routes": {
+    "api": "/api",
+    "auth": "/auth/validate-token",
+    "user": {
+      "register": "/users/register",
+      "signIn": "/users/sign-in",
+      "signOut": "/users/sign-out"
+    }
+  }
+}
