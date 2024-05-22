@@ -6,6 +6,9 @@
       "register": "/users/register",
       "signIn": "/users/sign-in",
       "signOut": "/users/sign-out"
+    },
+    "hotel": {
+      "create": "/hotels/create"
     }
   }
 }
