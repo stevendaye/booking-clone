@@ -4,11 +4,12 @@ const routes = {
   register: "/register",
   forgetPassword: "/account-recovery",
   search: "/search",
+
   flights: "/flights",
   carRentals: "/car-rentals",
   attractions: "/attractions",
   taxi: "/taxi",
-  listProperty: "/list-property",
+  listProperty: "/become-host",
   privacy: "/privacy-policy",
 
   mobileVersion: "/mobile-version",
@@ -24,6 +25,7 @@ const routes = {
     signIn: "/api/users/sign-in",
     signOut: "/api/users/sign-out",
     validateToken: "/api/auth/validate-token",
+    createHotel: "/api/hotels/create",
   },
 };
 

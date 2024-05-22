@@ -52,3 +52,15 @@ export const validateToken = async () => {
   if (!response.ok) throw new Error("Token Invalid");
   return response.json();
 };
+
+export const createHotel = async (data: FormData) => {
+  const response = await fetch(`${API_BASE_URL}${routes.api.createHotel}`, {
+    method: "POST",
+    credentials: "include",
+    body: data,
+  });
+
+  if (!response.ok) throw new Error("Error while creating hotel!");
+
+  return response.json();
+};

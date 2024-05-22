@@ -1,5 +1,5 @@
 import { useForm, FieldError, UseFormRegister } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { useMutation, useQueryClient } from "react-query";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { OAuthProvider } from "../components";
@@ -39,7 +39,7 @@ type ErrorsProps = {
 };
 
 const Register = () => {
-  const { showToast } = useAppContext();
+  const { isAuthenticated, showToast } = useAppContext();
   const navigate = useNavigate();
   const query = useQueryClient();
 
@@ -89,6 +89,10 @@ const Register = () => {
       mutation.mutate(data);
     }
   });
+
+  if (isAuthenticated) {
+    return <Navigate to={routes.home} />;
+  }
 
   return (
     <div className="container w-[375px] mx-auto">

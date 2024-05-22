@@ -18,7 +18,7 @@ import * as apiClient from "../api/apiClient";
 import { AccountDropdown } from "./AccountDropdown";
 
 export const Header = () => {
-  const { isLoggedIn, showToast } = useAppContext();
+  const { isAuthenticated, showToast } = useAppContext();
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
@@ -84,7 +84,7 @@ export const Header = () => {
             <PiQuestion size={25} />
           </Link>
 
-          {isLoggedIn && (
+          {isAuthenticated && (
             <button
               id="account-notification"
               className="pr-4 hover:rounded hover:bg-white/10 px-4 py-3"
@@ -102,7 +102,7 @@ export const Header = () => {
 
           {pathname !== routes.register && pathname !== routes.signIn && (
             <>
-              {isLoggedIn ? (
+              {isAuthenticated ? (
                 <AccountDropdown onClick={onLogout}>
                   <div
                     id="account-dropdown"

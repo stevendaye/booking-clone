@@ -21,7 +21,9 @@ const Layout = ({ children }: Props) => {
         {children}
       </div>
 
-      {pathname !== routes.register && pathname !== routes.signIn && <Footer />}
+      {pathname !== routes.register &&
+        pathname !== routes.signIn &&
+        pathname !== routes.listProperty && <Footer />}
     </div>
   );
 };

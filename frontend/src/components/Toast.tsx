@@ -1,6 +1,5 @@
 import { useEffect } from "react";
-import { AiFillCheckCircle } from "react-icons/ai";
-import { AiFillCloseCircle } from "react-icons/ai";
+import { AiFillCheckCircle, AiFillCloseCircle } from "react-icons/ai";
 
 type ToastProps = {
   title: string;

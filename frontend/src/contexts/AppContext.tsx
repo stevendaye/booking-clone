@@ -1,4 +1,4 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useMemo, useState } from "react";
 import { Toast } from "../components";
 import { useQuery } from "react-query";
 import * as apiClient from "../api/apiClient";
@@ -9,9 +9,23 @@ type ToastMessage = {
   type: "SUCCESS" | "ERROR";
 };
 
+type ListingProperty = {
+  propertyId: number | null;
+  propertyName: string | null;
+  propertyCountId: number;
+  propertyDescription: string;
+};
+
 export type AppContextProps = {
   showToast: (toastMessage: ToastMessage) => void;
-  isLoggedIn: boolean;
+  isAuthenticated: boolean;
+
+  selectedProperty: string;
+  setSelectedProperty: (val: string) => void;
+  listingStepper: number;
+  setListingStepper: (val: number) => void;
+  property: ListingProperty;
+  setProperty: (val: ListingProperty) => void;
 };
 
 export const AppContext = createContext<AppContextProps | undefined>(undefined);
@@ -26,13 +40,31 @@ export const AppContextProvider = ({
     retry: false,
   });
 
+  const [selectedProperty, setSelectedProperty] = useState<string>("");
+  const [listingStepper, setListingStepper] = useState<number>(0);
+  const [property, setProperty] = useState<ListingProperty>({
+    propertyId: null,
+    propertyName: null,
+    propertyCountId: 0,
+    propertyDescription: "",
+  });
+
+  const contextValue = useMemo(
+    () => ({
+      showToast: (toastMessage: ToastMessage) => setToast(toastMessage),
+      isAuthenticated: !isError || false,
+      selectedProperty,
+      setSelectedProperty,
+      listingStepper,
+      setListingStepper,
+      property,
+      setProperty,
+    }),
+    [isError, listingStepper, property, selectedProperty]
+  );
+
   return (
-    <AppContext.Provider
-      value={{
-        showToast: (toastMessage) => setToast(toastMessage),
-        isLoggedIn: !isError,
-      }}
-    >
+    <AppContext.Provider value={contextValue}>
       {toast && (
         <Toast
           title={toast.title}
