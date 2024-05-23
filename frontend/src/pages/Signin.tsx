@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link, Navigate, useNavigate } from "react-router-dom";
-import { useForm, FieldError, UseFormRegister } from "react-hook-form";
+import { FormProvider, useForm, useFormContext } from "react-hook-form";
 import { useMutation, useQueryClient } from "react-query";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import routes from "../routes";
@@ -13,38 +13,17 @@ export type SignInFormData = {
   password: string;
 };
 
-type StepperProps = {
-  register: UseFormRegister<SignInFormData>;
-  togglePassword: boolean;
-  setTogglePassword: (value: boolean) => void;
-  value: SignInFormData;
-  handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  errors: ErrorsProps;
-};
-
-type ErrorsProps = {
-  email?: FieldError;
-  password?: FieldError;
-};
-
 const Signin = () => {
   const { isAuthenticated, showToast } = useAppContext();
   const navigate = useNavigate();
   const query = useQueryClient();
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<SignInFormData>();
+  const formMethods = useForm<SignInFormData>();
+  const { handleSubmit } = formMethods;
 
   const [togglePassword, setTogglePassword] = useState<boolean>(false);
   const [step1, setStep1] = useState<boolean>(true);
   const [isSubumitted, setIsSubumitted] = useState<boolean>(false);
-  const [value, setValue] = useState<SignInFormData>({
-    email: "",
-    password: "",
-  });
 
   const mutation = useMutation(apiClient.signIn, {
     onSuccess: async () => {
@@ -62,13 +41,9 @@ const Signin = () => {
     },
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setValue({ ...value, [e.target.name]: e.target.value });
-  };
-
   const onSubmit = handleSubmit((data) => {
     setStep1(false);
-    if (value.password) {
+    if (!step1) {
       setIsSubumitted(true);
       mutation.mutate(data);
     }
@@ -80,37 +55,28 @@ const Signin = () => {
 
   return (
     <div className="container w-[375px] mx-auto">
-      <form className=" flex flex-col" onSubmit={onSubmit}>
-        {step1 && (
-          <EmailStepper
-            register={register}
-            handleChange={handleChange}
-            value={value}
-            errors={errors}
-          />
-        )}
+      <FormProvider {...formMethods}>
+        <form className=" flex flex-col" onSubmit={onSubmit}>
+          {step1 && <EmailStepper />}
 
-        {!step1 && (
-          <PasswordStepper
-            register={register}
-            togglePassword={togglePassword}
-            setTogglePassword={setTogglePassword}
-            handleChange={handleChange}
-            value={value}
-            errors={errors}
-          />
-        )}
+          {!step1 && (
+            <PasswordStepper
+              togglePassword={togglePassword}
+              setTogglePassword={setTogglePassword}
+            />
+          )}
 
-        <button
-          type="submit"
-          disabled={isSubumitted || false}
-          className={`${
-            isSubumitted ? " bg-blue-400" : "bg-light-blue"
-          } text-white w-full text-center rounded py-3 mt-4`}
-        >
-          {step1 ? "Continue with email" : "Sign in"}
-        </button>
-      </form>
+          <button
+            type="submit"
+            disabled={isSubumitted || false}
+            className={`${
+              isSubumitted ? " bg-blue-400" : "bg-light-blue"
+            } text-white w-full text-center rounded py-3 mt-4`}
+          >
+            {step1 ? "Continue with email" : "Sign in"}
+          </button>
+        </form>
+      </FormProvider>
 
       <div className="mt-4 mb-4 flex gap-2 items-center justify-center">
         <hr className="flex-1 border-none h-[1px] bg-main-gray" />
@@ -162,17 +128,12 @@ const Signin = () => {
 };
 
 /* Stepper 1: Email & Full Name */
-const EmailStepper = ({
-  register,
-  value,
-  handleChange,
-  errors,
-}: {
-  register: StepperProps["register"];
-  handleChange: StepperProps["handleChange"];
-  value: StepperProps["value"];
-  errors: StepperProps["errors"];
-}) => {
+const EmailStepper = () => {
+  const {
+    register,
+    formState: { errors },
+  } = useFormContext<SignInFormData>();
+
   return (
     <>
       <h1 className="font-bookingExtraBold text-xl">Sign into your account</h1>
@@ -187,8 +148,6 @@ const EmailStepper = ({
               errors.email && "border-red-500"
             }`}
             {...register("email", { required: "Enter your email address" })}
-            value={value.email}
-            onChange={handleChange}
           />
 
           {errors.email && (
@@ -201,20 +160,24 @@ const EmailStepper = ({
 };
 
 const PasswordStepper = ({
-  register,
   togglePassword,
   setTogglePassword,
-  value,
-  handleChange,
-  errors,
-}: StepperProps) => {
+}: {
+  togglePassword: boolean;
+  setTogglePassword: (value: boolean) => void;
+}) => {
+  const {
+    register,
+    watch,
+    formState: { errors },
+  } = useFormContext<SignInFormData>();
+  const watchEmail = watch("email");
+
   return (
     <>
       <h1 className="font-bookingExtraBold text-xl">Enter your password</h1>
       <div className="mt-5 flex flex-col gap-3">
-        <p className="mt-4">
-          Enter your Booking.com password for {value.email}
-        </p>
+        <p className="mt-4">Enter your Booking.com password for {watchEmail}</p>
 
         <label htmlFor="password">
           <span className="text-sm">Password</span>
@@ -233,8 +196,6 @@ const PasswordStepper = ({
                   message: "Password must be at least 6 character long",
                 },
               })}
-              value={value.password}
-              onChange={handleChange}
             />
             {!togglePassword ? (
               <AiOutlineEye

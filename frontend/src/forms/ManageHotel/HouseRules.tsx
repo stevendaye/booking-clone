@@ -124,7 +124,9 @@ export const HouseRules = () => {
           {/* Allowed Pets & Children */}
           <div className="mt-0">
             <div className="flex flex-col">
-              <p className="font-bold">Do you allow children?</p>
+              <p className="font-bold" id="allowChildren">
+                Do you allow children?
+              </p>
 
               <label htmlFor="allowChildrenYes" className="flex gap-2">
                 <input
@@ -159,12 +161,14 @@ export const HouseRules = () => {
             </div>
 
             <div className="flex flex-col mt-2">
-              <p className="font-bold">Do you allow pets?</p>
+              <p className="font-bold" id="allowPets">
+                Do you allow pets?
+              </p>
 
-              <label htmlFor="allowPets" className="flex gap-2">
+              <label htmlFor="allowPetsYes" className="flex gap-2">
                 <input
                   type="radio"
-                  id="allowPets"
+                  id="allowPetsYes"
                   value="Yes"
                   {...register("allowPets", {
                     required:
@@ -174,10 +178,10 @@ export const HouseRules = () => {
                 <span>Yes</span>
               </label>
 
-              <label htmlFor="allowPets" className="flex gap-2">
+              <label htmlFor="allowPetsNo" className="flex gap-2">
                 <input
                   type="radio"
-                  id="allowPets"
+                  id="allowPetsNo"
                   value="No"
                   {...register("allowPets", {
                     required:
@@ -187,10 +191,10 @@ export const HouseRules = () => {
                 <span>No</span>
               </label>
 
-              <label htmlFor="petsRequest" className="flex gap-2">
+              <label htmlFor="allowPetsRequest" className="flex gap-2">
                 <input
                   type="radio"
-                  id="petsRequest"
+                  id="allowPetsRequest"
                   value="On Request"
                   {...register("allowPets", {
                     required:

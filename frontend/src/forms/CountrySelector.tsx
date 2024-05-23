@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import countries from "./countries.json";
 import { useFormContext } from "react-hook-form";
 import { HotelFormData } from "./ManageHotel/ManageHotelForm";
@@ -13,11 +12,6 @@ export const CountrySelector = () => {
     register,
     formState: { errors },
   } = useFormContext<HotelFormData>();
-  const [country, setCountry] = useState<string>("");
-
-  const handleCountrySelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setCountry(e.target.value);
-  };
 
   return (
     <div className="flex flex-col gap-2">
@@ -26,12 +20,10 @@ export const CountrySelector = () => {
         <span className=" text-red-600">*</span>
         <select
           id="country"
-          value={country}
           className="w-full p-2 bg-white border-solid border-[1px] rounded"
           {...register("country", {
             required: "The country where the propoerty is located is needed.",
           })}
-          onChange={handleCountrySelect}
         >
           <option value="">Select your country</option>
           {countries.map((country: CountryType) => (

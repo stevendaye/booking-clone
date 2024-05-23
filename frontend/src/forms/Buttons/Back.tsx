@@ -5,7 +5,6 @@ export const Back = ({ onClickBack }: { onClickBack: () => void }) => {
     <button
       type="button"
       id="back"
-      aria-label="back"
       className={`border-solid border-[1.5px] border-light-blue py-4 rounded w-32
       items-center hover:bg-light-blue/10 text-light-blue flex flex-col`}
       onClick={onClickBack}

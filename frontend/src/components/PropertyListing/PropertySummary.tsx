@@ -14,9 +14,9 @@ export const PropertySummary = () => {
         <img src={Property} className=" object-cover" alt="Property Icon" />
       </div>
 
-      <p className="mt-12 mb-15 font-bold text-xl text-center w-[24rem]">
+      <h4 className="mt-12 mb-15 font-bold text-xl text-center w-[24rem]">
         {propertyDescription}
-      </p>
+      </h4>
 
       <p className="text-sm mt-24">Does this sound like your property?</p>
 

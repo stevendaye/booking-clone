@@ -74,8 +74,10 @@ export const PhotosForm = () => {
                   return "You cannot choose more than 15 images in the meantime.";
                 }
               },
+              onChange(e) {
+                handlePhotoChange(e);
+              },
             })}
-            onChange={handlePhotoChange}
             ref={fileInputRef}
           />
 
