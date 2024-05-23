@@ -4,7 +4,6 @@ import { ManageHotelForm } from "./ManageHotelForm";
 import { useAppContext } from "../../hooks";
 
 const AddHotel = () => {
-  const { setListingStepper } = useAppContext();
   const { showToast } = useAppContext();
   const { mutate, isLoading } = useMutation(apiClient.createHotel, {
     onSuccess() {
@@ -13,7 +12,6 @@ const AddHotel = () => {
         message: "New property added successfully",
         type: "SUCCESS",
       });
-      setListingStepper(0);
     },
     onError() {
       showToast({

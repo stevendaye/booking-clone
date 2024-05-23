@@ -52,7 +52,7 @@ export const AppContextProvider = ({
   const contextValue = useMemo(
     () => ({
       showToast: (toastMessage: ToastMessage) => setToast(toastMessage),
-      isAuthenticated: !isError || false,
+      isAuthenticated: !isError,
       selectedProperty,
       setSelectedProperty,
       listingStepper,

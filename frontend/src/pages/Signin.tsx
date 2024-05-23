@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 import { FormProvider, useForm, useFormContext } from "react-hook-form";
 import { useMutation, useQueryClient } from "react-query";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
@@ -17,6 +17,7 @@ const Signin = () => {
   const { isAuthenticated, showToast } = useAppContext();
   const navigate = useNavigate();
   const query = useQueryClient();
+  const location = useLocation();
 
   const formMethods = useForm<SignInFormData>();
   const { handleSubmit } = formMethods;
@@ -33,7 +34,7 @@ const Signin = () => {
         type: "SUCCESS",
       });
       await query.invalidateQueries("validateToken");
-      navigate(routes.home);
+      navigate(location?.state?.from?.pathname || routes.home);
     },
     onError: (error: Error) => {
       setIsSubumitted(false);
